@@ -68,15 +68,7 @@ Input:
 Output:  
 	grants.csv  
 
-## 3_topic_extract.py
-Builds python functions to extract short phrases from the titles of grants, and creates a new column for these phrases.   
-Input:  
-	genword_master.txt  
-	grants.csv   
-Output:  
-	updated grants.csv  
- 
-## 4_onet_match.py
+## 3_onet_match.py
 Uses SBERT to build an embedding space of O*Net skills which sentences in abstracts are compared to, to generate skill matches for grants.   
 Input:  
 	Content Model Reference.xlsx  
@@ -85,7 +77,7 @@ Output:
 	final, updated grants.csv  
 	onet_matching.csv
 
-## 5_grant_papers_compile.R
+## 4_grant_papers_compile.R
 Combines awards data with three tables from the SciSciNet data lake to produce a table of related publications.  
 Input:  
 	SciSciNet_NSF_Link.tsv  
