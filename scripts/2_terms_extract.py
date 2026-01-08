@@ -1,6 +1,6 @@
 ###script to extract terms from abstracts and outcome reports
 #extracts discipline terms, Lightcast skills, and educational program terms
-#takes as input grants_0.csv, as well as discipline_terms, program_terms, lightcast, wos_terms, wos_categories, and steamb_terms.csv
+#takes as input grants_0.csv, as well as discipline_terms, program_terms, lightcast, wos_terms, wos_categories, and sedamb_terms.csv
 # produces grants.csv
 
 import re
@@ -36,8 +36,8 @@ wos_df = pd.read_csv("../input/wos_terms.csv")
 #wos crosswalk from narrow to broad categories
 wos_xwalk = pd.read_csv("../input/wos_categories.csv")
 
-## STEAMB categories list
-steamb_df = pd.read_csv("../input/steamb_terms.csv")
+## SEDAMB categories list
+sedamb_df = pd.read_csv("../input/sedamb_terms.csv")
 
 ##create function to remove disciplines contained within other disciplines
 def Remove_Subset(List):
@@ -73,6 +73,9 @@ for row in range(0,len(nsf_df)):
     abstract = str(nsf_df.loc[row, 'Abstract']).lower()
     #if abstract:
     if not pd.isna(abstract):
+        #remove 'National Science Foundation'
+        abstract = re.sub('National Science Foundation','',abstract)
+
         #regexreplace sciences > science
         abstract = re.sub('sciences','science',abstract)
     
@@ -150,17 +153,21 @@ def field_replace(String):
         # StringCopy = re.sub(term, category, StringCopy)
         except:
             category=disc_df.loc[disc_df['terms'] == term]["categories"].tolist()
-            discipline_list.append(category)
-            
-    #remove duplicates
-    cat_list=list(set(cat_list))
+            cat_list.append(category)
+
+    #remove empty strings
+    cat_list = [s for s in cat_list if s != ""]
         
     #remove puncuation
     NewString = str(cat_list)
+    NewString = NewString.replace('[], ', '') 
     NewString = re.sub('\[','',NewString)
     NewString = re.sub('\]','',NewString)
     NewString = re.sub('\'','',NewString)
-    
+
+    #remove duplicates
+    NewString = ", ".join(set(NewString.split(", ")))
+
     return(NewString)
 
 ##set new column in df
@@ -213,15 +220,16 @@ def wos_replace(String):
                 cat_list.append(category)
             except:
                 category=wos_func_df.loc[wos_func_df['terms'] == term]["categories"].tolist()
-                discipline_list.append(category)
-     #remove duplicates
-    cat_list=list(set(cat_list))
+                cat_list.append(category)
         
     #remove puncuation
     NewString = str(cat_list)
     NewString = re.sub('\[','',NewString)
     NewString = re.sub('\]','',NewString)
     NewString = re.sub('\'','',NewString)
+
+    #remove duplicates
+    NewString = ", ".join(set(NewString.split(", ")))
 
     return(NewString)
 
@@ -276,15 +284,16 @@ def wosx_replace(String):
                 cat_list.append(category)
             except:
                 category=wos_xwalk.loc[wos_xwalk['terms'] == term]["categories"].tolist()
-                discipline_list.append(category)
-     #remove duplicates
-    cat_list=list(set(cat_list))
-        
+                cat_list.append(category)
+
     #remove puncuation
     NewString = str(cat_list)
     NewString = re.sub('\[','',NewString)
     NewString = re.sub('\]','',NewString)
     NewString = re.sub('\'','',NewString)
+
+    #remove duplicates
+    NewString = ", ".join(set(NewString.split(", ")))
 
     return(NewString)
 
@@ -315,65 +324,69 @@ for row in range(0,len(nsf_df)):
         #then set that as the new value
         nsf_df.loc[row, 'WoS Broad Categories Outcome Reports'] = str(new_fields)
 
-### add discipline categories- STEAMB
-print ('extracting STEAMB categories')
+### add discipline categories- SEDAMB
+print ('extracting SEDAMB categories')
 
-steamb_func_df = steamb_df[['consensus categories', 'broad categories']]
+sedamb_func_df = sedamb_df[['consensus categories', 'broad categories']]
+
+#remove all terms entries with more than one term in them by removing all rows where string contains a comma
+sedamb_func_df = sedamb_func_df[~sedamb_func_df['consensus categories'].str.contains(',', na=False)]
 
 #rename columns
-steamb_func_df = steamb_func_df.rename(columns={'consensus categories': 'terms', 'broad categories': 'categories'})
+sedamb_func_df = sedamb_func_df.rename(columns={'consensus categories': 'terms', 'broad categories': 'categories'})
 
 ##define replace function
-def steamb_replace(String):
+def sedamb_replace(String):
     #split string into terms
     String_terms = String.split(', ')
     cat_list = []
     for term in String_terms:    
-        series_bool = steamb_func_df['terms'] == term    
+        series_bool = sedamb_func_df['terms'] == term    
         if series_bool.any():
             try:
-                category=steamb_func_df.loc[steamb_func_df['terms'] == term]["categories"].item()
+                category=sedamb_func_df.loc[sedamb_func_df['terms'] == term]["categories"].item()
                 cat_list.append(category)
             except:
-                category=steamb_func_df.loc[steamb_func_df['terms'] == term]["categories"].tolist()
-                discipline_list.append(category)
-     #remove duplicates
-    cat_list=list(set(cat_list))
-        
+                category=sedamb_func_df.loc[sedamb_func_df['terms'] == term]["categories"].tolist()
+                cat_list.append(category)
+     
     #remove puncuation
     NewString = str(cat_list)
     NewString = re.sub('\[','',NewString)
     NewString = re.sub('\]','',NewString)
     NewString = re.sub('\'','',NewString)
 
+    #remove duplicates
+    NewString = ", ".join(set(NewString.split(", ")))
+
     return(NewString)
 
 ##set new column in df
-nsf_df['STEAMB Categories'] = ['none']*len(nsf_df)
+nsf_df['SEDAMB Categories'] = ['none']*len(nsf_df)
 
 ##iterate input terms and replace
 for row in range(0,len(nsf_df)):
     #run replace on the string of the row
     disc = nsf_df.loc[row, 'Disciplines']
     if disc != 'none':
-        new_fields = steamb_replace(disc)
+        new_fields = sedamb_replace(disc)
 
         #then set that as the new value
-        nsf_df.loc[row, 'STEAMB Categories'] = str(new_fields)
+        nsf_df.loc[row, 'SEDAMB Categories'] = str(new_fields)
 
 ## repeat for outcome reports
 ##set new column in df
-nsf_df['STEAMB Categories Outcome Reports'] = ['none']*len(nsf_df)
+nsf_df['SEDAMB Categories Outcome Reports'] = ['none']*len(nsf_df)
 
 ##iterate input terms and replace
 for row in range(0,len(nsf_df)):
     #run replace on the string of the row
     disc = nsf_df.loc[row, 'Disciplines Outcome Reports']
     if disc != 'none':
-        new_fields = steamb_replace(disc)
+        new_fields = sedamb_replace(disc)
 
         #then set that as the new value
-        nsf_df.loc[row, 'STEAMB Categories Outcome Reports'] = str(new_fields)
+        nsf_df.loc[row, 'SEDAMB Categories Outcome Reports'] = str(new_fields)
 
 ### program terms extract
 print ('extracting program terms')
@@ -528,8 +541,8 @@ desired_columns = ['AwardNumber', 'Title', 'NSFOrganization', 'Program(s)', 'Sta
                    'OrganizationState', 'OrganizationZip', 'Full Address', 'OrganizationPhone', 
                    'NSFDirectorate', 'ProgramElementCode(s)', 'ProgramReferenceCode(s)', 'ARRAAmount', 
                    'Abstract', 'Outcome Report', 'Disciplines', 'Disciplines Outcome Reports', 
-                   'WoS Broad Categories', 'WoS Broad Categories Outcome Reports', 'STEAMB Categories',
-                    'STEAMB Categories Outcome Reports', 'Program Terms', 'Program Terms Outcome Reports', 
+                   'WoS Broad Categories', 'WoS Broad Categories Outcome Reports', 'SEDAMB Categories',
+                    'SEDAMB Categories Outcome Reports', 'Program Terms', 'Program Terms Outcome Reports', 
                     'Lightcast Skills', 'Lightcast Skills Outcome Reports']
 
 # Filter the DataFrame to keep only the desired columns

@@ -1,5 +1,5 @@
 # GENERAL INFORMATION
-Repository for NSF Interdisciplinary Training Grants Collection
+Repository for The NSF interdisciplinary training grants dataset
 
 ## Author/Principal Investigator Information
 Name: Stasa Milojevic

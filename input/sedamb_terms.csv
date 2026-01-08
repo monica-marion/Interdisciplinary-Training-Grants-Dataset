@@ -1,5 +1,5 @@
 terms from text,consensus categories,broad categories
-accounting,accounting,business 
+accounting,accounting,business
 acoustics,acoustics,science
 adaptive dynamics,adaptive dynamics,science
 advanced computational science,computer science,science
@@ -129,9 +129,9 @@ botanical systems,botanical systems,science
 botany,botany,science
 brain and cognitive science,"brain science, cognitive science",science
 brain and cognitive sciences,"brain science, cognitive science",science
-business administration,business administration,business 
-business analytics,business analytics,business 
-business and entrepreneurship,"business, entrepreneurship",business 
+business administration,business administration,business
+business analytics,business analytics,business
+business and entrepreneurship,"business, entrepreneurship",business
 cardiovascular physiology,cardiovascular physiology,science
 cell and developmental biology,"cell biology, developmental biology",science
 cell and molecular neurobiology,"cell neurobiology, molecular neurobiology",science
@@ -231,7 +231,6 @@ data science,data science,science
 data visualization,data visualization,science
 data-enabled science,data science,science
 decision science,decision science,science
-decision systems,CHECK,
 degree programs in engineering,engineering,engineering
 demography,demography,science
 design,design,design
@@ -299,7 +298,7 @@ english,english,art & humanities
 entomological biology,entomology,science
 entomology,entomology,science
 entomology/life sciences,"entomology, life science",science
-entrepreneurship,entrepreneurship,business 
+entrepreneurship,entrepreneurship,business
 environment and earth sciences,"environmental science, earth science",science
 environmental and natural resources sciences,"environmental science, natural resources science",science
 environmental biology,environmental biology,science
@@ -401,7 +400,7 @@ human dimensions of natural resource management,natural resource management,scie
 human evolution,human evolution,science
 human factors/industrial organizational psychology,industrial organizational psychology,science
 human genetics,human genetics,science
-human resources,human resources,business 
+human resources,human resources,business
 human-centered science,human-centered science,science
 human-computer interaction,human-computer interaction,design
 humanitarian engineering,humanitarian engineering,engineering
@@ -468,15 +467,14 @@ macromolecular dynamics,macromolecular dynamics,"science, engineering"
 macromolecular modeling,macromolecular modeling,"science, engineering"
 macromolecular science,macromolecular science,science
 magnetics,magnetics,"science, engineering"
-management,management,business 
-management of technology,management of technology,business 
-management systems,management systems,business 
+management,management,business
+management of technology,management of technology,business
+management systems,management systems,business
 manufacturing,manufacturing,engineering
 marine and climate sciences (mcs),"marine science, climate science",science
 marine and environmental sciences,"marine science, environmental science",science
 marine biology,marine biology,science
 marine policy,marine policy,science
-marine science,marine science,science
 marine science,marine science,science
 marine sciences,marine science,science
 material science,materials science,science
@@ -539,12 +537,12 @@ molecular imaging,molecular imaging,engineering
 molecular life science,molecular life science,science
 molecular physics,molecular physics,science
 "molecular, cellular and developmental biology","molecular biology, cellular biology, developmental biology",science
-morphology,morphology,science 
+morphology,morphology,science
 morphometrics,morphometrics,science
 motion science,motion science,science
 multi-agent systems,multi-agent systems,engineering
 multiculturalism,multiculturalism,art & humanities
-multiple biological disciplines,biology,science 
+multiple biological disciplines,biology,science
 museum studies,museum studies,art & humanities
 nano-photonics,nanophotonics,"science, engineering"
 nano-scale engineering,nanoscale engineering,engineering
@@ -552,8 +550,8 @@ nanobiosensors,nanobiosensors,"science, engineering"
 nanobiotechnology,nanobiotechnology,engineering
 nanomagnetism,nanomagnetism,"science, engineering"
 nanomaterials,nanomaterials,science
-nanomaterials science,nanomaterials science,science 
-nanomedicine,nanomedicine,science 
+nanomaterials science,nanomaterials science,science
+nanomedicine,nanomedicine,science
 nanoparticle science,nanoparticle science,science
 nanoparticulate materials,nanomaterials,science
 nanoscale engineering,nanoscale engineering,engineering
@@ -660,7 +658,6 @@ plant sciences,plant science,science
 polar sciences,polar science,science
 political economy,political economy,science
 political science,political science,science
-politics,political science,science
 polymer design,polymer design,"science, engineering"
 polymer engineering,polymer engineering,engineering
 polymer science,polymer science,science
