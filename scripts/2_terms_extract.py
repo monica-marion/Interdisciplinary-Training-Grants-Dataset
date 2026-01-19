@@ -32,9 +32,9 @@ bg_df = pd.read_csv("../input/lightcast.csv")
 
 ## Web of Science discipline categories and crosswalk
 #wos categories for discipline terms
-wos_df = pd.read_csv("../input/wos_terms.csv")
+wos_df = pd.read_csv("../input/disciplinebroadarea_terms.csv")
 #wos crosswalk from narrow to broad categories
-wos_xwalk = pd.read_csv("../input/wos_categories.csv")
+wos_xwalk = pd.read_csv("../input/wos_mapped_areas.csv")
 
 ## SEDAMB categories list
 sedamb_df = pd.read_csv("../input/sedamb_terms.csv")
@@ -198,13 +198,13 @@ for row in range(0,len(nsf_df)):
         nsf_df.loc[row, 'Disciplines Outcome Reports'] = str(new_fields)
 
 ###add discipline broad categories- Web of Science categories
-print ('extracting WoS categories')
+print ('extracting DisciplineBroadArea categories')
 
 ## add WoS categories (narrow)
-wos_func_df = wos_df[['terms', 'wos_terms']]
+wos_func_df = wos_df[['terms', 'DisciplineBroadArea']]
 
 #rename columns
-wos_func_df = wos_func_df.rename(columns={'wos_terms': 'categories'})
+wos_func_df = wos_func_df.rename(columns={'DisciplineBroadArea': 'categories'})
 
 ##define replace function
 def wos_replace(String):
@@ -298,7 +298,7 @@ def wosx_replace(String):
     return(NewString)
 
 ##set new column in df
-nsf_df['WoS Broad Categories'] = ['none']*len(nsf_df)
+nsf_df['DisciplineBroadArea'] = ['none']*len(nsf_df)
 
 ##iterate input terms and replace
 for row in range(0,len(nsf_df)):
@@ -308,11 +308,11 @@ for row in range(0,len(nsf_df)):
         new_fields = wosx_replace(disc)
 
         #then set that as the new value
-        nsf_df.loc[row, 'WoS Broad Categories'] = str(new_fields)
+        nsf_df.loc[row, 'DisciplineBroadArea'] = str(new_fields)
 
 ## repeat for outcome reports
 ##set new column in df
-nsf_df['WoS Broad Categories Outcome Reports'] = ['none']*len(nsf_df)
+nsf_df['DisciplineBroadArea Outcome Reports'] = ['none']*len(nsf_df)
 
 ##iterate input terms and replace
 for row in range(0,len(nsf_df)):
@@ -322,7 +322,7 @@ for row in range(0,len(nsf_df)):
         new_fields = wosx_replace(disc)
 
         #then set that as the new value
-        nsf_df.loc[row, 'WoS Broad Categories Outcome Reports'] = str(new_fields)
+        nsf_df.loc[row, 'DisciplineBroadArea Outcome Reports'] = str(new_fields)
 
 ### add discipline categories- SEDAMB
 print ('extracting SEDAMB categories')
@@ -427,8 +427,6 @@ for row in range(0,len(nsf_df)):
 
     nsf_df.loc[row, 'Program Terms'] = str(prog_col)
 
-# nsf_df['Program Terms'] = nsf_df['Program Terms'].str.replace('\[', '', regex=False)
-# nsf_df['Program Terms'] = nsf_df['Program Terms'].str.replace('\]', '', regex=False)
 nsf_df['Program Terms'] = nsf_df['Program Terms'].str.replace('\'', '', regex=False)
 
 ## repeat for Outcome Reports
@@ -541,7 +539,7 @@ desired_columns = ['AwardNumber', 'Title', 'NSFOrganization', 'Program(s)', 'Sta
                    'OrganizationState', 'OrganizationZip', 'Full Address', 'OrganizationPhone', 
                    'NSFDirectorate', 'ProgramElementCode(s)', 'ProgramReferenceCode(s)', 'ARRAAmount', 
                    'Abstract', 'Outcome Report', 'Disciplines', 'Disciplines Outcome Reports', 
-                   'WoS Broad Categories', 'WoS Broad Categories Outcome Reports', 'SEDAMB Categories',
+                   'DisciplineBroadArea', 'DisciplineBroadArea Outcome Reports', 'SEDAMB Categories',
                     'SEDAMB Categories Outcome Reports', 'Program Terms', 'Program Terms Outcome Reports', 
                     'Lightcast Skills', 'Lightcast Skills Outcome Reports']
 
