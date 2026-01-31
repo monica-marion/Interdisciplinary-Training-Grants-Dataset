@@ -14,6 +14,7 @@ Email: monmmari@iu.edu
 
 ### PIPELINE FOR DATA PROCESSING
 
+## STEP 0: DATA COLLECTION
 ## 0_outcome_report_webscraper.py
 Used to add outcome report text where available, using the python Selenium package to load each webpage, in order to load the outcome report text from javascript, and then retrieve that text by searching for the div id “porContent.”  
 Input:  
@@ -21,6 +22,7 @@ Input:
 Output:  
 	grants_0.csv  
 
+## STEP 1: FIELD EXTRACTION
 ## 1a1_generate_field_list_manual.py
 Cycles through the text of each grant abstract and asks for user input for each sentence with the word “from” to generate a list of sentences that are relevant to naming disciplines for that grant. It also creates a second column with automatically extracted sentence fragments from each abstract, using regex to search for the following phrases: 'domain experts in”, “department,” “combine,” “students,” “field,” “trainee,” and “disciplin-.”   
 Input:  
@@ -55,6 +57,7 @@ Input:
 Output:  
 	discipline_terms.csv  
 	
+## STEP 2: TERM EXTRACTION
 ## 2_terms_extract.py
 Uses the spaCy matcher to extract disciplines, Lightcast skills, and educational program terms from grant abstracts and outcome reports, and also to convert those discipline terms into broader categories.   
 Input:  
@@ -68,6 +71,7 @@ Input:
 Output:  
 	grants.csv  
 
+## STEP 3: SKILL MAPPING
 ## 3_onet_match.py
 Uses SBERT to build an embedding space of O*Net skills which sentences in abstracts are compared to, to generate skill matches for grants.   
 Input:  
@@ -77,6 +81,7 @@ Output:
 	final, updated grants.csv  
 	onet_matching.csv
 
+## STEP 4: PUBLICATION LINKING
 ## 4_grant_papers_compile.R
 Combines awards data with three tables from the SciSciNet data lake to produce a table of related publications.  
 Input:  

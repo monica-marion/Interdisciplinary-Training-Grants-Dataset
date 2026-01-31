@@ -16,7 +16,7 @@ library(dplyr)
 ##bring in data
 nsf_all <- fread('../output/grants.csv')
 ##delete extra columns
-nsf_all <- nsf_all[, c("AwardNumber", "Abstract", "Outcome Report")]
+nsf_all <- nsf_all[, c("AwardNumber")]
 
 ###make papers dataset
 ##bring in sciscinet csvs- download from https://doi.org/10.6084/m9.figshare.c.6076908.v1
@@ -107,6 +107,8 @@ nsf_and_ssn <- unique(nsf_and_ssn)
 nsf_and_ssn <- subset(nsf_and_ssn, select = -c(DOI.y, DocType.y,Year.y,Date.y,JournalID.y,ConferenceSeriesID.y))
 ##rename repeat columns
 nsf_and_ssn <- nsf_and_ssn %>% rename(DOI = DOI.x, DocType = DocType.x, Year = Year.x, Date = Date.x, JournalID = JournalID.x, ConferenceSeriesID = ConferenceSeriesID.x)
+##rename Award ID column from SciSciNet
+nsf_and_ssn <- nsf_and_ssn %>% rename(SciSci_NSF_Award_Number = NSF_Award_Number)
 
 ##save csv of papers with metadata
 write.csv(nsf_and_ssn, file="../output/grant_papers.csv")
