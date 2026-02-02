@@ -10,6 +10,8 @@ import re
 from sentence_transformers import SentenceTransformer, util
 model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
 from sklearn.manifold import TSNE
+import nltk
+nltk.download('punkt_tab')
 from nltk.tokenize import sent_tokenize, word_tokenize
 import torch
 

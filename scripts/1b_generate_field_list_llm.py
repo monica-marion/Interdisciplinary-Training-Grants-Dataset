@@ -6,7 +6,6 @@
 import ollama
 import pandas as pd
 import re
-get_ipython().system('ollama pull llama3')
 
 # import grant data
 nsf_df = pd.read_csv("../output/grants_1.csv")
