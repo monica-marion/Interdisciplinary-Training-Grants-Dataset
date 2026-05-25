@@ -18,6 +18,17 @@ nsf_df = pd.read_csv("../output/grants_0.csv")
 ##create full address field
 nsf_df['Full Address'] = nsf_df['OrganizationStreet'] + ', ' +nsf_df['OrganizationCity'] + ', ' +nsf_df['OrganizationState'] + ', ' +nsf_df['OrganizationZip']
 
+##replace names columns with anonymized numbering system
+#assign a number to each unique name in a column
+#make a list of names
+unique_names = pd.unique(nsf_df[['PrincipalInvestigator', 'ProgramManager']].values.ravel()).tolist()
+
+# Map each unique value to a number
+mapping = {val: i+1000 for i, val in enumerate(unique_names)}
+
+nsf_df['PrincipalInvestigator'] = nsf_df['PrincipalInvestigator'].replace(mapping)
+nsf_df['ProgramManager'] = nsf_df['ProgramManager'].replace(mapping)
+
 ##discipline terms list
 #lists generated from 1a and 1b scripts, 
 #then combined and with 'categories' categories column added manually
@@ -534,9 +545,7 @@ for row in range(0,len(nsf_df)):
 # List of columns to keep
 desired_columns = ['AwardNumber', 'Title', 'NSFOrganization', 'Program(s)', 'StartDate', 
                    'LastAmendmentDate', 'PrincipalInvestigator', 'State', 'Organization', 
-                   'AwardInstrument', 'ProgramManager', 'EndDate', 'AwardedAmountToDate', 
-                   'Co-PIName(s)', 'PIEmailAddress', 'OrganizationStreet', 'OrganizationCity', 
-                   'OrganizationState', 'OrganizationZip', 'Full Address', 'OrganizationPhone', 
+                   'AwardInstrument', 'ProgramManager', 'EndDate', 'AwardedAmountToDate', 'Full Address',
                    'NSFDirectorate', 'ProgramElementCode(s)', 'ProgramReferenceCode(s)', 'ARRAAmount', 
                    'Abstract', 'Outcome Report', 'Disciplines', 'Disciplines Outcome Reports', 
                    'DisciplineBroadArea', 'DisciplineBroadArea Outcome Reports', 'SEDAMB Categories',
